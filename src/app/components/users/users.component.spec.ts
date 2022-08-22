@@ -6,7 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 
 import { UsersComponent } from './users.component';
 
-fdescribe('UsersComponent', () => {
+describe('UsersComponent', () => {
   let component: UsersComponent;
   let fixture: ComponentFixture<UsersComponent>;
   let servicio: AuthService;
@@ -101,28 +101,5 @@ fdescribe('UsersComponent', () => {
   it('Validar metodo clear', () => {
     component.clearArray();
     expect(component.arreglo.length).toEqual(0);
-  });
-
-  it('Validar que traiga un usuario', () => {
-    const responseMock = {
-      id: 2,
-      email: 'janet.weaver@reqres.in',
-      first_name: 'Janet',
-      last_name: 'Weaver',
-      avatar: 'https://reqres.in/img/faces/2-image.jpg',
-    };
-
-    // Espiamos nuestro servicio getUsers
-    const spyGetUser = spyOn(servicio, 'getUserAPI').and.returnValue(
-      of(responseMock)
-    );
-
-    const idUser = 2;
-    component.getUser(idUser);
-
-    //Validamos que se haya llamado el Spy
-    expect(spyGetUser).toHaveBeenCalled();
-
-    expect(component.user).toEqual(responseMock);
   });
 });

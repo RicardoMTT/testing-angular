@@ -24,14 +24,6 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  getUser(id) {
-    this.auth.getUserAPI(id).subscribe((val: any) => {
-      console.log('aaa', val);
-
-      this.user = val;
-    });
-  }
-
   clearArray() {
     this.arreglo = [];
   }

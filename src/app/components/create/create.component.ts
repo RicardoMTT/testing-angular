@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -11,7 +12,11 @@ import { AuthService } from 'src/app/services/auth.service';
 export class CreateComponent {
   loginFG;
   token: string = '';
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.loginFG = this.fb.group({
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
@@ -24,8 +29,12 @@ export class CreateComponent {
       password: this.loginFG.get('password').value,
     };
     this.authService.auth(credentials).subscribe((value) => {
-      console.log(value);
       this.token = value.token;
+      this.router.navigate(['home']);
     });
+  }
+
+  redirect() {
+    this.router.navigate(['home']);
   }
 }

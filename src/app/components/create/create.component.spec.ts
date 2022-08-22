@@ -11,12 +11,16 @@ import {
   Validators,
 } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { Router } from '@angular/router';
 
-fdescribe('CreateComponent', async () => {
+describe('CreateComponent', async () => {
   let component: CreateComponent;
   let fixture: ComponentFixture<CreateComponent>;
   let service: AuthService;
-
+  //Crear un espia del router
+  let mockNavigate = {
+    navigate: jasmine.createSpy('navigate'),
+  };
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CreateComponent],
@@ -25,7 +29,13 @@ fdescribe('CreateComponent', async () => {
         RouterTestingModule,
         ReactiveFormsModule,
       ],
-      providers: [AuthService],
+      providers: [
+        AuthService,
+        {
+          provide: Router,
+          useValue: mockNavigate,
+        },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     }).compileComponents();
   });
@@ -68,15 +78,18 @@ fdescribe('CreateComponent', async () => {
     });
     expect(spyMock).toHaveBeenCalled();
     component.login();
-    console.log(component.token);
-
     expect(component.token).toEqual(mockDataResponseLoginFirst.token);
   });
 
   it('Validar estado inicial', () => {
-    console.log('aa', component.token);
-
     expect(component.token).toEqual('');
     expect(component.loginFG.valid).toEqual(false);
+  });
+
+  it('Debe redireccionar al home', () => {
+    const spyOnRedirect = spyOn(component, 'redirect').and.callThrough(); //Para rastrear las llamadas que se hagan a ese metodo
+    component.redirect();
+    expect(mockNavigate.navigate).toHaveBeenCalledWith(['home']); //Verificar si navego correctamente a esa ruta
+    expect(spyOnRedirect).toHaveBeenCalled(); //Verificar si se ha llamado al metodo
   });
 });
