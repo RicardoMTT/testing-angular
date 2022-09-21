@@ -1,3 +1,10 @@
 <p>users works!</p>
-
+<ul>
+  <li *ngFor="let user of users" style="list-style: none">
+    <div style="display: flex">
+      <img [src]="user.avatar" alt="avatar" />
+      <span>{{ user.first_name }}</span>
+    </div>
+  </li>
+</ul>
 <button (click)="clearArray()">Clear</button>

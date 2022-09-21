@@ -15,7 +15,7 @@ const routes: Routes = [
     component: UsersComponent,
   },
   {
-    path: 'home',
+    path: '',
     component: HomeComponent,
   },
   {
